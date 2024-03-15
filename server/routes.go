@@ -50,6 +50,15 @@ func init() {
 		mode = gin.DebugMode
 	}
 
+	if defaultSessionDurationStr := os.Getenv("OLLAMA_DEFAULT_SESSION_DURATION"); defaultSessionDurationStr != "" {
+		parsedSessionDuration, err := time.ParseDuration(defaultSessionDurationStr)
+		if err != nil {
+			parsedSessionDuration = 5 * time.Minute
+		}
+
+		defaultSessionDuration = parsedSessionDuration
+	}
+
 	gin.SetMode(mode)
 }
 
